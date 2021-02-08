@@ -5,5 +5,6 @@ class Category {
   final String title;
   final Color color;
 
-  Category({this.id, this.title, this.color});
+  Category(
+      {@required this.id, @required this.title, this.color = Colors.orange});
 }
