@@ -10,6 +10,7 @@ class CategoriesScreen extends StatelessWidget {
         title: const Text("Welcome Cook!"),
       ),
       body: GridView(
+        padding: const EdgeInsets.all(25),
         children: DUMMY_CATEGORIES
             .map(
               (dummyCategory) =>
