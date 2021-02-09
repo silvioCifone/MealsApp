@@ -1,6 +1,6 @@
 # meals_app
 
-It groups any type's ricepts from everywhere 
+It groups any ricepts' type from everywhere 
 
 ## Getting Started
 
