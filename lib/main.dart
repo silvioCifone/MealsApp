@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/", //It defines the default route at start
       routes: {
         //"/": (context) => CategoriesScreen(), It's the same sintax of the home parameter in MaterialApp widget arguments
-        "/category-meals": (context) => CategoryMealsScreen(),
+        CategoryMealsScreen.routeName: (context) => CategoryMealsScreen(),
       },
     );
   }
