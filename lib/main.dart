@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/categories_screen.dart';
-import 'package:meals_app/category_meals_screen.dart';
+import 'package:meals_app/screen/categories_screen.dart';
+import 'package:meals_app/screen/category_meals_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,7 +32,8 @@ class MyApp extends StatelessWidget {
             ),
       ),
       home: CategoriesScreen(),
-      initialRoute: "/", //It defines the default route at start
+      initialRoute: "/",
+      //It defines the default route at start
       routes: {
         //"/": (context) => CategoriesScreen(), It's the same sintax of the home parameter in MaterialApp widget arguments
         CategoryMealsScreen.routeName: (context) => CategoryMealsScreen(),
