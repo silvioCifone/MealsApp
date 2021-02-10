@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
       ),
       home: CategoriesScreen(),
       routes: {
+        //"/": (context) => CategoriesScreen(), It's the same sintax of the home parameter in MaterialApp widget arguments
         "/category-meals": (context) => CategoryMealsScreen(),
       },
     );
