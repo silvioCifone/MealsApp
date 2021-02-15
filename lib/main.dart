@@ -40,6 +40,22 @@ class MyApp extends StatelessWidget {
         CategoryMealsScreen.routeName: (context) => CategoryMealsScreen(),
         MealDetailScreen.routeName: (context) => MealDetailScreen(),
       },
+      /** It's called every times that we use a non existent route. In this case
+       * if we comment row 40, clicking in a meal item redirect to Categories
+       * Screen. It's used for dynamic routes
+       */
+      onGenerateRoute: (settings) {
+        print(settings.arguments);
+        return MaterialPageRoute(builder: (context) => CategoriesScreen());
+      },
+      /**
+       * It's called when flutter fail to build a route with any other method,
+       * onGenerateRoute included
+       */
+      onUnknownRoute: (settings) {
+        //should return an error page or something like this
+        return MaterialPageRoute(builder: (context) => CategoriesScreen());
+      },
     );
   }
 }
