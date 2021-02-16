@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
     "isVegetarian": false,
   };
   List<Meal> _availableMeals = DUMMY_MEALS;
+  List<Meal> _favoriteMeals = [];
 
   void _setFilters(Map<String, bool> filterData) {
     setState(() {
@@ -45,6 +46,25 @@ class _MyAppState extends State<MyApp> {
         return true;
       }).toList();
     });
+  }
+
+  void _onFavoriteUpdate(String mealId) {
+    final existingIndex =
+        _favoriteMeals.indexWhere((meal) => meal.id == mealId);
+    if (existingIndex >= 0) {
+      setState(() {
+        _favoriteMeals.removeAt(existingIndex);
+      });
+    } else {
+      setState(() {
+        _favoriteMeals
+            .add(_availableMeals.firstWhere((meal) => meal.id == mealId));
+      });
+    }
+  }
+
+  bool _isMealFavorite(String mealId) {
+    return _favoriteMeals.any((meal) => meal.id == mealId);
   }
 
   @override
@@ -70,15 +90,17 @@ class _MyAppState extends State<MyApp> {
               ),
             ),
       ),
-      home: TabsScreen(),
+      home: TabsScreen(_favoriteMeals),
       initialRoute: "/",
       //It defines the default route at start
       routes: {
         //"/": (context) => CategoriesScreen(), It's the same sintax of the home parameter in MaterialApp widget arguments
         CategoryMealsScreen.routeName: (context) =>
             CategoryMealsScreen(_availableMeals),
-        MealDetailScreen.routeName: (context) => MealDetailScreen(),
-        FiltersScreen.routeName: (context) => FiltersScreen(_setFilters, _filters),
+        MealDetailScreen.routeName: (context) =>
+            MealDetailScreen(_onFavoriteUpdate, _isMealFavorite),
+        FiltersScreen.routeName: (context) =>
+            FiltersScreen(_setFilters, _filters),
       },
       /** It's called every times that we use a non existent route. In this case
        * if we comment row 40, clicking in a meal item redirect to Categories
