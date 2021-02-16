@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/dummy_data.dart';
+import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories_screen.dart';
 import 'package:meals_app/screens/category_meals_screen.dart';
 import 'package:meals_app/screens/filters_screen.dart';
@@ -9,8 +11,42 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Map<String, bool> _filters = {
+    "isGlutenFree": false,
+    "isLactoseFree": false,
+    "isVegan": false,
+    "isVegetarian": false,
+  };
+  List<Meal> _availableMeals = DUMMY_MEALS;
+
+  void _setFilters(Map<String, bool> filterData) {
+    setState(() {
+      _filters = filterData;
+      _availableMeals = DUMMY_MEALS.where((meal) {
+        if (_filters["isGlutenFree"] && !meal.isGlutenFree) {
+          return false;
+        }
+        if (_filters["isLactoseFree"] && !meal.isLactoseFree) {
+          return false;
+        }
+        if (_filters["isVegan"] && !meal.isVegan) {
+          return false;
+        }
+        if (_filters["isVegetarian"] && !meal.isVegetarian) {
+          return false;
+        }
+        return true;
+      }).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,9 +75,10 @@ class MyApp extends StatelessWidget {
       //It defines the default route at start
       routes: {
         //"/": (context) => CategoriesScreen(), It's the same sintax of the home parameter in MaterialApp widget arguments
-        CategoryMealsScreen.routeName: (context) => CategoryMealsScreen(),
+        CategoryMealsScreen.routeName: (context) =>
+            CategoryMealsScreen(_availableMeals),
         MealDetailScreen.routeName: (context) => MealDetailScreen(),
-        FiltersScreen.routeName: (context) => FiltersScreen(),
+        FiltersScreen.routeName: (context) => FiltersScreen(_setFilters, _filters),
       },
       /** It's called every times that we use a non existent route. In this case
        * if we comment row 40, clicking in a meal item redirect to Categories
